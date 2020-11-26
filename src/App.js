@@ -1,25 +1,54 @@
-import logo from './logo.svg';
+import React, { useState} from 'react';
 import './App.css';
+import Products from './Products';
+import Cart from './Cart'
+
+const PAGE_PRODUCTS = 'products';
+const PAGE_CART = 'cart';
+
 
 function App() {
+
+  
+  
+
+  const [cart, setCart] = useState([])
+  const [page, setPage] = useState(PAGE_PRODUCTS)
+
+  
+
+  const addToCart = (item) => {
+    setCart([...cart, { ...item}])
+  }
+
+  const removeFromCart = (itemToRemove) => {
+    setCart(cart.filter( item => item !== itemToRemove))
+  }
+
+  const navigateTo = (nextPage) => {
+    setPage(nextPage);
+  }
+
+
+ 
+
+  
+ 
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+        <div className="App">
+          <header>
+            <button onClick={() => navigateTo(PAGE_CART)}>Go to Cart ({cart.length})</button>
+            <button onClick={() => navigateTo(PAGE_PRODUCTS)}>View Products</button> 
+          </header>
+          {page === PAGE_PRODUCTS && <Products addToCart={addToCart}/>}
+          {page === PAGE_CART && <Cart removeFromCart={ removeFromCart} cart={cart}/>}
+        </div>  
+      )
+    }
+
+    
+  
+
 
 export default App;
